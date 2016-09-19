@@ -13,8 +13,14 @@ router.get('/', function (req, res, next) {
         })
     });
 
-    imagePromise.then((results) => {
-        res.render('index', {title: 'Express', images: results});
+    let containerPromise = new Promise((resolve, reject) => {
+        d.listContainers({}, (err, data) => {
+            resolve(data);
+        })
+    });
+
+    Promise.all([imagePromise, containerPromise]).then((results) => {
+        res.render('index', {title: 'Behold', images: results[0], containers: results[1]});
     });
 });
 

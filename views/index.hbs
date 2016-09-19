@@ -1,6 +1,15 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
 <div>
+    {{#if containers}}
+        <strong>Here are your currently running containers</strong>
+        <ul>
+            {{#each containers}}
+                <li>{{Image}}</li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
     <strong>Here are some images:</strong>
     <ul>
         {{#each images}}
