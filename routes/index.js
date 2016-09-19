@@ -17,6 +17,14 @@ router.get('/', function (req, res, next) {
         d.listContainers({}, (err, data) => {
             resolve(data);
         })
+    }).then((containers) => {
+        return containers.map(c => d.getContainer(c.Id)).map(c => new Promise((resolve, reject) => {
+            c.inspect({}, (err, data) => {
+                resolve(data);
+            });
+        }));
+    }).then((inspectedContainers) => {
+        return Promise.all(inspectedContainers)
     });
 
     let volumesPromise = new Promise((resolve, reject) => {
