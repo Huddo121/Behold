@@ -19,8 +19,15 @@ router.get('/', function (req, res, next) {
         })
     });
 
-    Promise.all([imagePromise, containerPromise]).then((results) => {
-        res.render('index', {title: 'Behold', images: results[0], containers: results[1]});
+    let volumesPromise = new Promise((resolve, reject) => {
+        d.listVolumes({}, (err, data) => {
+            resolve(data.Volumes);
+        })
+    });
+
+
+    Promise.all([imagePromise, containerPromise, volumesPromise]).then((results) => {
+        res.render('index', {title: 'Behold', images: results[0], containers: results[1], volumes: results[2]});
     });
 });
 
