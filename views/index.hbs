@@ -1,14 +1,14 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
 <div>
-    {{#if containers}}
-        <strong>Here are your currently running containers</strong>
+    <strong>Here are your currently running containers</strong>
+    {{#each containerSummaries}}
         <ul>
-            {{#each containers}}
-                <li>{{Id}}: {{Image}}</li>
-            {{/each}}
+            <li>Name: {{Name}}</li>
+            <li>Image: {{ImageName}}</li>
+            <li>Status: {{Status}}</li>
         </ul>
-    {{/if}}
+    {{/each}}
 
 
     <strong>Here are your volumes:</strong>
