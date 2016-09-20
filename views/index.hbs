@@ -1,14 +1,23 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
 <div>
-    <strong>Here are your currently running containers</strong>
-    {{#each containerSummaries}}
-        <ul>
-            <li>Name: {{Name}}</li>
-            <li>Image: {{ImageName}}</li>
-            <li>Status: {{Status}}</li>
-        </ul>
-    {{/each}}
+    <p>
+        <strong>Here are your currently running containers</strong>
+        <div class="flex two three-600 five-1200 grow">
+            {{#each containerSummaries}}
+                <div>
+                    <article class="card">
+                        <header class="flex">
+                            <span><strong>{{Name}}</span> <span class="label">{{Status}}</span></strong>
+                        </header>
+                        <footer>
+                            <div class="stack">
+                                Image: {{ImageName}}
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+            {{/each}}
+        </div>
+    </p>
 
 
     <strong>Here are your volumes:</strong>

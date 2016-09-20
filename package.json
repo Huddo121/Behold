@@ -15,5 +15,8 @@
     "less-middleware": "1.0.x",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "bower": "^1.7.9",
   }
 }
