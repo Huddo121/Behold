@@ -8,6 +8,11 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 
 var app = express();
+if(app.get('env') === 'development') {
+  app.use(require('connect-livereload')({
+    port: 35729
+  }));
+}
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jsx');

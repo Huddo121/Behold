@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var shell = require('gulp-shell');
 var changed = require('gulp-changed');
+var gls = require('gulp-live-server');
 
 var config = {
     src: './src',
@@ -14,6 +15,26 @@ var config = {
 
 gulp.task('default', () => {
     return gutil.log('No task specified, performing no action');
+});
+
+
+//Spin up the development server
+gulp.task('serve', ['watch'], function() {
+    //1. run your script as a server
+    var server = gls.new(config.target + '/bin/www');
+    server.start();
+
+    //use gulp.watch to trigger server actions(notify, start or stop)
+    gulp.watch([config.target + '/**/*'], function (file) {
+        server.notify.apply(server, [file]);
+    });
+
+});
+
+gulp.task('watch', ['build'], () => {
+    gulp.watch(config.src + '/views/**/*.jsx', ['build']);
+    gulp.watch(config.src + '/bin/**/*', ['build']);
+    gulp.watch(config.src + '/routes/**/*', ['build']);
 });
 
 gulp.task('public', () => {
