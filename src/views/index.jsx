@@ -6,7 +6,7 @@ class IndexPage extends React.Component {
     render() {
 
         let containerSummaries = this.props.containerSummaries.map((summary) => {
-            return <ContainerSummary key={summary.Id} summary={summary}/>
+            return <ContainerSummary key={summary.id} summary={summary}/>
         });
 
         return (
