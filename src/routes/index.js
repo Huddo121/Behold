@@ -39,17 +39,17 @@ router.get('/', function (req, res, next) {
         //Summarise and aggregate all the data we can find for each container
         let containerSummaries = results[1].map(container => {
             let containerSummary = {};
-            containerSummary.Id = container.Id;
-            containerSummary.Name = container.Name;
+            containerSummary.id = container.Id;
+            containerSummary.name = container.Name;
 
             let containerImage = results[0].filter(image => image.Id === container.Image)[0];
             if(containerImage === undefined) {
-                containerSummary.ImageName = "Unknown: " + container.Image;
+                containerSummary.imageName = "Unknown: " + container.Image;
             } else {
-                containerSummary.ImageName = containerImage.RepoTags[0];
+                containerSummary.imageName = containerImage.RepoTags[0];
             }
 
-            containerSummary.Status = container.State.Status;
+            containerSummary.status = container.State.Status;
 
             return containerSummary;
         });

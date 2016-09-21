@@ -1,4 +1,5 @@
 var React = require('react');
+var ContainerStatusBadge = require('./ContainerStatusBadge');
 
 class ContainerSummary extends React.Component {
     render() {
@@ -6,11 +7,11 @@ class ContainerSummary extends React.Component {
             <div>
                 <article className="card">
                     <header className="flex">
-                        <strong><span>{this.props.summary.Name}</span> <span className="label">{this.props.summary.Status}</span></strong>
+                        <strong><span>{this.props.summary.name}</span> <ContainerStatusBadge status={this.props.summary.status}/></strong>
                     </header>
                     <footer>
                         <div className="stack">
-                            Image: {this.props.summary.ImageName}
+                            Image: {this.props.summary.imageName}
                         </div>
                     </footer>
                 </article>
