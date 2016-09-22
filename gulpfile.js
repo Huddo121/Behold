@@ -43,6 +43,7 @@ gulp.task('public', () => {
             config.src + '/public/javascripts/**/*.*',
             config.src + '/public/stylesheets/**/*.less'
         ], {base: config.src})
+        .pipe(changed(config.target))
         .pipe(gulp.dest(config.target))
 });
 
@@ -53,6 +54,7 @@ gulp.task('build', ['public', 'third-party-files'], () => {
             config.src + '/views/**/*',
             config.src + '/*.js'
         ], {base: config.src})
+        .pipe(changed(config.target))
         .pipe(gulp.dest(config.target))
 });
 
@@ -60,6 +62,7 @@ gulp.task('third-party-files', () => {
     return gulp.src([
             config.paths.picnic
         ])
+        .pipe(changed(config.target))
         .pipe(gulp.dest(config.target + '/public/stylesheets/'));
 });
 
