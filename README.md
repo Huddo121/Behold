@@ -1,7 +1,5 @@
 # Behold
 
------
-
 ## About
 Behold is a wallboard display application for Docker containers. The goal of Behold will be to eventually allow you to quickly understand at a glance the state of your Docker runtime and the containers.
 
