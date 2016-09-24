@@ -10,9 +10,13 @@ Behold is a wallboard display application for Docker containers. The goal of Beh
 1. `gulp serve`
 1. Open http://localhost:3000 in your favourite browser
 
-### Docker Container
+### Building The Docker Container
 1. Clone the repo
 1. `npm install`
 1. `gulp build`
+1. `docker run -dit --name behold -v /var/run/docker.sock:/var/run/docker.sock -p 8080:80 huddo121/behold`
+1. Open http://localhost:8080 in your favourite browser
+
+### Using The Pre-Built Image
 1. `docker run -dit --name behold -v /var/run/docker.sock:/var/run/docker.sock -p 8080:80 huddo121/behold`
 1. Open http://localhost:8080 in your favourite browser
