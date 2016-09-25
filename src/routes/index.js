@@ -9,7 +9,6 @@ router.get('/', function (req, res, next) {
 
     let dockerUpPromise = new Promise((resolve, reject) => {
         d.ping((err, data) => {
-            console.log('error', err, 'data', data);
             let pingResponse = {
                 isSuccess: err ? false : true,
                 code: 'OK',
