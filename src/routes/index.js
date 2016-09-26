@@ -49,14 +49,7 @@ router.get('/', function (req, res, next) {
                 })
             });
 
-            //Collect data from Volumes
-            let volumesPromise = new Promise((resolve, reject) => {
-                d.listVolumes({}, (err, data) => {
-                    resolve(data.Volumes);
-                })
-            });
-
-            Promise.all([imagePromise, containerPromise, volumesPromise]).then((results) => {
+            Promise.all([imagePromise, containerPromise]).then((results) => {
 
                 //Summarise and aggregate all the data we can find for each container
                 let containerSummaries = results[1].map(container => {
