@@ -14,6 +14,10 @@ class DefaultLayout extends React.Component {
                         <span className="brand" style={{fontSize: "160%"}}>
                             <span style={{color: '#E74D3C'}}>B</span><span>ehold</span>
                         </span>
+                        <div style={{float: "right"}}>
+                            <a href="/" className="pseudo button icon-picture">Containers</a>
+                            <a href="/images" className="pseudo button icon-puzzle">Images</a>
+                        </div>
                     </nav>
                     {this.props.children}
                 </body>
