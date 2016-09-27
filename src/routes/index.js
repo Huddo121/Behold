@@ -55,7 +55,7 @@ router.get('/', function (req, res, next) {
                 let containerSummaries = results[1].map(container => {
                     let containerSummary = {};
                     containerSummary.id = container.Id;
-                    containerSummary.name = container.Name;
+                    containerSummary.name = container.Name.replace('/', '');
 
                     let containerImage = results[0].filter(image => image.Id === container.Image)[0];
                     if(containerImage === undefined) {
