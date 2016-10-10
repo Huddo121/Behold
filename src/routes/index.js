@@ -56,12 +56,13 @@ router.get('/', function (req, res, next) {
                     let containerSummary = {};
                     containerSummary.id = container.Id;
                     containerSummary.name = container.Name;
+                    containerSummary.imageId = container.Image;
 
                     let containerImage = results[0].filter(image => image.Id === container.Image)[0];
                     if(containerImage === undefined) {
                         containerSummary.imageName = "Unknown: " + container.Image;
                     } else {
-                        containerSummary.imageName = containerImage.RepoTags[0];
+                        containerSummary.imageName = container.Config.Image;
                     }
 
                     containerSummary.status = container.State.Status;

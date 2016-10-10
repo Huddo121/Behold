@@ -12,7 +12,7 @@ class ImageSummary extends React.Component {
         });
 
         return (
-            <div>
+            <div style={{width: 'fit-content'}}>
                 <article className="card">
                     <header className="flex">
                         <strong><span>{this.props.summary.id}</span></strong>

@@ -10,7 +10,7 @@ class ImagePage extends React.Component {
         });
 
         return (
-            <DefaultLayout title={this.props.title}>
+            <DefaultLayout title='Images'>
                 <div>
                     <p>
                         <strong>Here, each image lists its containers</strong>
