@@ -5,12 +5,14 @@ Behold is a wallboard display application for Docker containers. The goal of Beh
 
 ## Running Behold
 ### From Source
+1. npm install -g gulp bower
 1. Clone the repo
 1. `npm install`
 1. `gulp serve`
 1. Open http://localhost:3000 in your favourite browser
 
 ### Building The Docker Container
+1. npm install -g gulp bower
 1. Clone the repo
 1. `npm install`
 1. `gulp build`
