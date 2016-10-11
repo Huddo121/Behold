@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var Docker = require('dockerode');
+var shortenId = require('./util/shortenId');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get(['/', '/containers'], function (req, res, next) {
 
     let d = new Docker();
 
@@ -56,12 +57,13 @@ router.get('/', function (req, res, next) {
                     let containerSummary = {};
                     containerSummary.id = container.Id;
                     containerSummary.name = container.Name.replace('/', '');
+                    containerSummary.imageId = shortenId(container.Image);
 
                     let containerImage = results[0].filter(image => image.Id === container.Image)[0];
                     if(containerImage === undefined) {
-                        containerSummary.imageName = "Unknown: " + container.Image;
+                        containerSummary.imageName = "Unknown: " + shortenId(container.Image);
                     } else {
-                        containerSummary.imageName = containerImage.RepoTags[0];
+                        containerSummary.imageName = container.Config.Image;
                     }
 
                     containerSummary.status = container.State.Status;
