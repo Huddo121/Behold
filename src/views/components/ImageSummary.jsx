@@ -5,8 +5,8 @@ class ImageSummary extends React.Component {
 
         let spawnedContainers = this.props.summary.containers.map((container) => {
             return (
-                <div key={container} className="stack">
-                    Container: {container}
+                <div key={container.id} className="stack">
+                    Container: <a href={"/containers/" + container.id}>{container.name}</a>
                 </div>
             )
         });
@@ -15,7 +15,7 @@ class ImageSummary extends React.Component {
             <div style={{width: 'fit-content'}}>
                 <article className="card">
                     <header className="flex">
-                        <strong><span>{this.props.summary.id}</span></strong>
+                        <strong><span>{this.props.summary.name}</span></strong>
                     </header>
                     <footer>
                         {spawnedContainers}
