@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Docker = require('dockerode');
+var shortenId = require('./util/shortenId');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -54,13 +55,13 @@ router.get('/', function (req, res, next) {
                 //Summarise and aggregate all the data we can find for each container
                 let containerSummaries = results[1].map(container => {
                     let containerSummary = {};
-                    containerSummary.id = container.Id;
+                    containerSummary.id = shortenId(container.Id);
                     containerSummary.name = container.Name;
-                    containerSummary.imageId = container.Image;
+                    containerSummary.imageId = shortenId(container.Image);
 
                     let containerImage = results[0].filter(image => image.Id === container.Image)[0];
                     if(containerImage === undefined) {
-                        containerSummary.imageName = "Unknown: " + container.Image;
+                        containerSummary.imageName = "Unknown: " + shortenId(container.Image);
                     } else {
                         containerSummary.imageName = container.Config.Image;
                     }

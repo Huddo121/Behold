@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Docker = require('dockerode');
+var shortenId = require('./util/shortenId');
 
 router.get('/', function (req, res, next) {
 
@@ -30,16 +31,16 @@ router.get('/', function (req, res, next) {
             if(imageSummary.length === 0) {
                 //Don't have a summary for this one
                 let imageSummary = {
-                    id: container.Image,
+                    id: shortenId(container.Image),
                     containers: [
-                        container.Id
+                        shortenId(container.Id)
                     ]
                 };
 
                 imageSummaries.push(imageSummary);
             } else {
                 //Already have a summary started for this image
-                imageSummary[0].containers.push(container.Id);
+                imageSummary[0].containers.push(shortenId(container.Id));
             }
         });
 
