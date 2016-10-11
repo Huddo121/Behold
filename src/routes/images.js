@@ -41,9 +41,6 @@ router.get('/', function (req, res, next) {
         let images = results[1];
         let imageSummaries = [];
 
-        console.log('images', images);
-        console.log('containers',containers);
-
         images.forEach((image) => {
             let imageSummary = {
                 id: shortenId(image.Id),
