@@ -4,7 +4,7 @@ var Docker = require('dockerode');
 var shortenId = require('./util/shortenId');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get(['/', '/containers'], function (req, res, next) {
 
     let d = new Docker();
 
