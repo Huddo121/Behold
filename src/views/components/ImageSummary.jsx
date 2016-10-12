@@ -15,7 +15,7 @@ class ImageSummary extends React.Component {
             <div style={{width: 'fit-content'}}>
                 <article className="card">
                     <header className="flex">
-                        <strong><span>{this.props.summary.name}</span></strong>
+                        <strong><span><a href={"/images/" + this.props.summary.id}>{this.props.summary.name}</a></span></strong>
                     </header>
                     <footer>
                         {spawnedContainers}
