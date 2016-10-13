@@ -55,7 +55,7 @@ router.get(['/', '/containers'], function (req, res, next) {
                 //Summarise and aggregate all the data we can find for each container
                 let containerSummaries = results[1].map(container => {
                     let containerSummary = {};
-                    containerSummary.id = container.Id;
+                    containerSummary.id = shortenId(container.Id);
                     containerSummary.name = container.Name.replace('/', '');
                     containerSummary.imageId = shortenId(container.Image);
 
