@@ -81,7 +81,57 @@ router.get(['/', '/containers'], function (req, res, next) {
 });
 
 router.get('/containers/:containerId', function (req, res, next) {
-    console.log('containers with id called');
+    let d = new Docker();
+
+    //validate the id
+    let containerId = req.params.containerId;
+    if(containerId.length !== 12) {
+        res.render('error', {message: 'Unable to retrieve image details', error: {status: 'The Image Id Provided isn\'t the correct length for a Docker short id. Short ids are 12 character hexadecimal strings', stack: new Error().stack}});
+        return;
+    }
+    //TODO: Should probably validate the id is hex
+
+    let containerPromise = new Promise((resolve, reject) => {
+        d.getContainer(containerId).inspect((err, data) => {
+            if(err) {
+                reject(err);
+            }
+            resolve(data);
+        })
+    });
+
+    //Collect data from Images
+    let imagePromise = containerPromise.then((container) => {
+        return new Promise((resolve, reject) => {
+            d.getImage(container.Image).inspect((err, data) => {
+                resolve(data);
+            })
+        });
+    });
+
+    Promise.all([containerPromise, imagePromise]).then((results) => {
+        let container = results[0];
+        let image = results[1];
+        let imageLabels = image.Config.Labels || [];
+        //TODO: Make ports more accurate, currently just showing exposed ports. Need to show all local ports that map to container's exposed ports
+        let ports = Object.keys(container.NetworkSettings.Ports);
+
+        let containerDetails = {
+            id: shortenId(container.Id),
+            name: container.Name.replace('/', ''),
+            imageId: shortenId(container.Image),
+            imageName: imageLabels.Name || image.RepoTags[0] || "Unknown",
+            creationDate: container.Created,
+            volumes: container.Mounts.map(mount => {return {source: mount.Source, destination: mount.Destination}}),
+            ports: ports
+        };
+
+        res.render('containerDetails', {title: 'Test Page', containerDetails: containerDetails})
+
+    }, (error) => {
+        res.render('error', {message: error.message});
+    });
+
 });
 
 module.exports = router;
