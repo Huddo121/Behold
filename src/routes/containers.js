@@ -71,13 +71,17 @@ router.get(['/', '/containers'], function (req, res, next) {
                     return containerSummary;
                 });
 
-                res.render('index', {title: 'Behold', images: results[0], containers: results[1], volumes: results[2], containerSummaries: containerSummaries});
+                res.render('containers', {title: 'Behold', images: results[0], containers: results[1], volumes: results[2], containerSummaries: containerSummaries});
             });
         } else {
             // Docker is unable to be pinged
             res.render('error', {message: 'Cannot connect to Docker', error: {status: pingResponse.code, 'stack': pingResponse.message}});
         }
     });
+});
+
+router.get('/containers/:containerId', function (req, res, next) {
+    console.log('containers with id called');
 });
 
 module.exports = router;
