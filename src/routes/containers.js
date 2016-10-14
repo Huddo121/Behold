@@ -104,6 +104,9 @@ router.get('/containers/:containerId', function (req, res, next) {
     let imagePromise = containerPromise.then((container) => {
         return new Promise((resolve, reject) => {
             d.getImage(container.Image).inspect((err, data) => {
+                if(err) {
+                    reject(err);
+                }
                 resolve(data);
             })
         });
