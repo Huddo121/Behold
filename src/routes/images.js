@@ -72,6 +72,9 @@ router.get('/:imageId', (req, res, next) => {
 
     let imagePromise = new Promise((resolve, reject) => {
         d.getImage(imageId).inspect((err, data) => {
+            if(err) {
+                reject(err);
+            }
             resolve(data);
         })
     });
@@ -93,6 +96,8 @@ router.get('/:imageId', (req, res, next) => {
             volumes: Object.keys(volumes)
         };
         res.render('imageDetails', {imageDetails: imageDetails});
+    }, (error) => {
+        res.render('error', {message: error.message});
     });
 
 });
