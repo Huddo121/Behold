@@ -6,7 +6,7 @@ class ContainerSummary extends React.Component {
         return (
             <div style={{width: 'fit-content'}}>
                 <article className="card">
-                    <header className="flex">
+                    <header>
                         <strong><span><a href={"/containers/" + this.props.summary.id}>{this.props.summary.name}</a></span> <ContainerStatusBadge status={this.props.summary.status}/></strong>
                     </header>
                     <footer>
