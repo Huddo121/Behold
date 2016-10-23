@@ -49,7 +49,7 @@ router.get('/', function (req, res, next) {
 
             imageSummary.containers  = containers.filter(c => c.Image === image.Id).map(c => {return {
                 id: shortenId(c.Id),
-                name: c.Name
+                name: c.Name.replace('/', '')
             }});
 
             imageSummaries.push(imageSummary);
