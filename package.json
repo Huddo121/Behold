@@ -23,6 +23,7 @@
     "express": "~4.13.4",
     "express-react-views": "^0.10.2",
     "less-middleware": "1.0.x",
+    "mdbootstrap": "^4.1.1",
     "morgan": "~1.7.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

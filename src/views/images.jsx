@@ -11,11 +11,11 @@ class ImagePage extends React.Component {
 
         return (
             <DefaultLayout title='Images'>
-                <div>
+                <div className="container-fluid">
                     <p>
                         <strong>Here, each image lists its containers</strong>
                     </p>
-                    <div className="flex two three-600 five-1200 grow">
+                    <div className="flex summaries">
                         {imageSummaries}
                     </div>
                 </div>

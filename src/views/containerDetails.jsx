@@ -56,11 +56,12 @@ class ContainerDetailsPage extends React.Component {
 
         return (
             <DefaultLayout title='Images'>
-                <div>
-                    <div className="card">
+                <div className="container-fluid">
+                    <div className="card card-block">
                         <header>
                             {headerItems}
                         </header>
+                        <hr/>
                         <footer>
                             <p>
                                 Creation Date: {details.creationDate}

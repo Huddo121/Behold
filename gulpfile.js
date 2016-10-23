@@ -11,6 +11,11 @@ var config = {
     bowerRoot: './bower_components',
     paths: {
         picnic: './bower_components/picnic/releases/picnic.min.css',
+        mdbootstrap: {
+            css: './node_modules/mdbootstrap/css/*.min.css',
+            js: './node_modules/mdbootstrap/js/*.min.js',
+            fonts: './node_modules/mdbootstrap/font/**/*'
+        }
     }
 };
 
@@ -50,7 +55,8 @@ gulp.task('public', () => {
 
 gulp.task('build', ['public', 'third-party-files'], () => {
     gulp.src([
-            config.src + '/views/**/*'
+            config.src + '/views/**/*',
+            config.src + '/public/**/*'
         ], {base: config.src})
         .pipe(changed(config.target))
         .pipe(gulp.dest(config.target));
@@ -65,12 +71,30 @@ gulp.task('build', ['public', 'third-party-files'], () => {
         .pipe(gulp.dest(config.target));
 });
 
-gulp.task('third-party-files', () => {
+gulp.task('third-party-files', ['third-party-styles', 'third-party-js', 'third-party-fonts']);
+
+gulp.task('third-party-styles', () => {
     return gulp.src([
-            config.paths.picnic
+        config.paths.mdbootstrap.css
         ])
         .pipe(changed(config.target))
         .pipe(gulp.dest(config.target + '/public/stylesheets/'));
+});
+
+gulp.task('third-party-js', () => {
+    return gulp.src([
+        config.paths.mdbootstrap.js
+        ])
+        .pipe(changed(config.target))
+        .pipe(gulp.dest(config.target + '/public/javascripts/'));
+});
+
+gulp.task('third-party-fonts', () => {
+    return gulp.src([
+        config.paths.mdbootstrap.fonts
+    ])
+        .pipe(changed(config.target))
+        .pipe(gulp.dest(config.target + '/public/fonts/'));
 });
 
 gulp.task('docker', ['build'], shell.task([
