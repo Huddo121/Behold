@@ -6,6 +6,12 @@ const DockerClient = function() {
     this.runtime = new Docker();
 };
 
+/**
+ * Attempt to connect to the Docker runtime.
+ * @returns {Promise} A Promise for the response from the Docker runtime. In the event that the Docker
+ * runtime cannot be reached an error response will be resolved, rather than rejected, as this
+ * is considered a 'successful response'.
+ */
 DockerClient.prototype.ping = async function() {
     return new Promise((resolve, reject) => {
         this.runtime.ping((err, data) => {
@@ -27,11 +33,15 @@ DockerClient.prototype.ping = async function() {
     });
 };
 
+/**
+ * Get an array of all running containers in the Docker runtime
+ * @returns A Promise for an array of running containers available to the Docker runtime
+ */
+//TODO: Have this return stopped containers too.
 DockerClient.prototype.getContainers = async function() {
 
     let pingResponse = await this.ping();
     if(!pingResponse.isSuccess) {
-        console.log('couldn\'t connect to docker in getContainers');
         return Promise.reject(pingResponse);
     }
 
@@ -50,11 +60,15 @@ DockerClient.prototype.getContainers = async function() {
     });
 };
 
+/**
+ * Return the details for a container with the specified id.
+ * @param containerId The hash id of the container, as seen when running `docker ps -a`
+ * @returns A Promise for the container's details
+ */
 DockerClient.prototype.getContainer = async function(containerId) {
 
     let pingResponse = await this.ping();
     if(!pingResponse.isSuccess) {
-        console.log('couldn\'t connect to docker in getContainer');
         return Promise.reject(pingResponse);
     }
 
@@ -68,11 +82,14 @@ DockerClient.prototype.getContainer = async function(containerId) {
     });
 };
 
+/**
+ * Get an array of all images available to the Docker runtime
+ * @returns {*} A Promise for an array of images available to the Docker runtime
+ */
 DockerClient.prototype.getImages = async function() {
 
     let pingResponse = await this.ping();
     if(!pingResponse.isSuccess) {
-        console.log('couldn\'t connect to docker in getImages');
         return Promise.reject(pingResponse);
     }
 
@@ -91,11 +108,15 @@ DockerClient.prototype.getImages = async function() {
     });
 };
 
+/**
+ * Return the details for an image with the specified id.
+ * @param imageId The hash id of the image, as seen when running `docker images`
+ * @returns A Promise for the image's details
+ */
 DockerClient.prototype.getImage = async function(imageId) {
 
     let pingResponse = await this.ping();
     if(!pingResponse.isSuccess) {
-        console.log('couldn\'t connect to docker in getImage');
         return Promise.reject(pingResponse);
     }
 
