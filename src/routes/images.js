@@ -28,6 +28,16 @@ router.get('/', function (req, res, next) {
             imageSummaries.push(imageSummary);
         });
 
+        imageSummaries.sort((summ1, summ2) => {
+            if(summ1.containers.length > summ2.containers.length) {
+                return -1;
+            }
+            if(summ1.containers.length < summ2.containers.length) {
+                return 1;
+            }
+            return 0;
+        });
+
         res.render('images', {imageSummaries: imageSummaries})
     }, (error) => {
         res.render('error', {message: error.message, error: {status: error.code, 'stack': error.message}});
