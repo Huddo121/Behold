@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var shell = require('gulp-shell');
 var changed = require('gulp-changed');
 var gls = require('gulp-live-server');
+var babel = require('gulp-babel');
 
 var config = {
     src: './src',
@@ -48,14 +49,20 @@ gulp.task('public', () => {
 });
 
 gulp.task('build', ['public', 'third-party-files'], () => {
-    return gulp.src([
-            config.src + '/bin/**/*',
-            config.src + '/routes/**/*',
-            config.src + '/views/**/*',
-            config.src + '/*.js'
+    gulp.src([
+            config.src + '/views/**/*'
         ], {base: config.src})
         .pipe(changed(config.target))
-        .pipe(gulp.dest(config.target))
+        .pipe(gulp.dest(config.target));
+
+    return gulp.src([
+        config.src + '/bin/**',
+        config.src + '/**/*.js',
+        '!' + config.src + '/src/views/**/*'
+    ], {base: config.src})
+        .pipe(babel())
+        .pipe(changed(config.target))
+        .pipe(gulp.dest(config.target));
 });
 
 gulp.task('third-party-files', () => {
