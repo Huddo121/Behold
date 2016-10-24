@@ -35,7 +35,7 @@ DockerClient.prototype.ping = async function() {
 
 /**
  * Get an array of all running containers in the Docker runtime
- * @returns A Promise for an array of running containers available to the Docker runtime
+ * @returns {Promise} A Promise for an array of running containers available to the Docker runtime
  */
 //TODO: Have this return stopped containers too.
 DockerClient.prototype.getContainers = async function() {
@@ -63,7 +63,7 @@ DockerClient.prototype.getContainers = async function() {
 /**
  * Return the details for a container with the specified id.
  * @param containerId The hash id of the container, as seen when running `docker ps -a`
- * @returns A Promise for the container's details
+ * @returns {Promise} A Promise for the container's details
  */
 DockerClient.prototype.getContainer = async function(containerId) {
 
@@ -111,7 +111,7 @@ DockerClient.prototype.getImages = async function() {
 /**
  * Return the details for an image with the specified id.
  * @param imageId The hash id of the image, as seen when running `docker images`
- * @returns A Promise for the image's details
+ * @returns {Promise} A Promise for the image's details
  */
 DockerClient.prototype.getImage = async function(imageId) {
 
