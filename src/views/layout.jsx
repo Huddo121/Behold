@@ -20,10 +20,10 @@ class DefaultLayout extends React.Component {
                         <a className="navbar-brand" style={{fontSize: "200%", fontWeight: "Bold", fontFamily: "Arial, Helvetica, sans-serif"}} href="/"><span style={{color: '#E74D3C'}}>B</span><span style={{color: '#111'}}>ehold</span></a>
                         <ul className="nav navbar-nav pull-xs-right">
                             <li className="nav-item">
-                                <a href="/containers" className="nav-link">Containers</a>
+                                <a href="/containers" className="btn btn-primary nav-link">Containers</a>
                             </li>
                             <li className="nav-item">
-                                <a href="/images" className="nav-link">Images</a>
+                                <a href="/images" className="btn btn-primary nav-link">Images</a>
                             </li>
                         </ul>
                     </nav>
