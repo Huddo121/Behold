@@ -18,9 +18,9 @@ class ImageSummary extends React.Component {
                         <a href={"/images/" + this.props.summary.id}>{this.props.summary.name}</a>
                      </strong>
                     <hr/>
-                    <p className="card-text">
+                    <div className="card-text">
                         {spawnedContainers}
-                    </p>
+                    </div>
                 </div>
             </div>
         );

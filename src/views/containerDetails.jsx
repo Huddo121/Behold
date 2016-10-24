@@ -1,5 +1,6 @@
 var React = require('react');
 var DefaultLayout = require('./layout.jsx');
+var ansiUp = require('ansi_up');
 
 class ContainerDetailsPage extends React.Component {
     render() {
@@ -56,6 +57,7 @@ class ContainerDetailsPage extends React.Component {
 
         return (
             <DefaultLayout title='Images'>
+                <link rel="stylesheet" href="/stylesheets/monokai_sublime.css"/>
                 <div className="container-fluid">
                     <div className="card card-block">
                         <header>
@@ -68,6 +70,13 @@ class ContainerDetailsPage extends React.Component {
                             </p>
                             {optionalItems}
                         </footer>
+                        <pre className="highlight">
+                            {/* TODO: Find a better way to do this */}
+                            <code className="hljs">
+                                <span dangerouslySetInnerHTML={{ __html: ansiUp.ansi_to_html(this.props.logs) }}>
+                                </span>
+                            </code >
+                        </pre>
                     </div>
                 </div>
             </DefaultLayout>

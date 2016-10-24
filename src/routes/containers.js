@@ -63,9 +63,13 @@ router.get('/containers/:containerId', function (req, res, next) {
         return client.getImage(container.Image);
     });
 
-    Promise.all([containerPromise, imagePromise]).then((results) => {
+    let logPromise = client.getContainerLogs(containerId);
+
+    Promise.all([containerPromise, imagePromise, logPromise]).then((results) => {
         let container = results[0];
         let image = results[1];
+        let logs = results[2];
+
         let imageLabels = image.Config.Labels || [];
         //TODO: Make ports more accurate, currently just showing exposed ports. Need to show all local ports that map to container's exposed ports
         let ports = Object.keys(container.NetworkSettings.Ports);
@@ -80,7 +84,7 @@ router.get('/containers/:containerId', function (req, res, next) {
             ports: ports
         };
 
-        res.render('containerDetails', {title: 'Test Page', containerDetails: containerDetails})
+        res.render('containerDetails', {title: 'Test Page', containerDetails: containerDetails, logs: logs})
 
     }, (error) => {
         res.render('error', {message: error.message, error: {status: error.code, 'stack': error.message}});

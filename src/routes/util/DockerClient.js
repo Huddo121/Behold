@@ -130,4 +130,40 @@ DockerClient.prototype.getImage = async function(imageId) {
     });
 };
 
+DockerClient.prototype.getContainerLogs = async function(containerId) {
+
+    let pingResponse = await this.ping();
+    if(!pingResponse.isSuccess) {
+        return Promise.reject(pingResponse);
+    }
+
+    //TODO: Switch to using a stream and update logs on client in real-time
+    let params = {
+        stdout: true,
+        stderr: true,
+        timestamps: false
+    };
+
+    let modem = this.runtime.modem;
+    let optsf = {
+        path: '/containers/' + containerId + '/logs?',
+        method: 'GET',
+        isStream: false,
+        auth: undefined,
+        statusCodes: {
+            200: true,
+            500: 'server error'
+        },
+        options: params
+    };
+
+    return new Promise((resolve, reject) => {
+        modem.dial(optsf, function(err, data) {
+            if(err) { reject(err); }
+            resolve(data);
+        });
+    });
+
+};
+
 module.exports = DockerClient;
