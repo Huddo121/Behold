@@ -8,7 +8,7 @@ class ContainerDetailsPage extends React.Component {
 
         //Set up the header items
         let headerItems = [];
-        headerItems.push(<h3 key="name">{details.name}</h3>);
+        headerItems.push(<h1 key="name">{details.name}</h1>);
 
         if(details.author) {
             headerItems.push(
@@ -70,6 +70,7 @@ class ContainerDetailsPage extends React.Component {
                             </p>
                             {optionalItems}
                         </footer>
+                        <h4>Container Log</h4>
                         <pre className="highlight">
                             {/* TODO: Find a better way to do this */}
                             <code className="hljs">
