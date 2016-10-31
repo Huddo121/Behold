@@ -10,7 +10,6 @@ var config = {
     target: './target',
     bowerRoot: './bower_components',
     paths: {
-        picnic: './bower_components/picnic/releases/picnic.min.css',
         mdbootstrap: {
             css: './node_modules/mdbootstrap/css/*.min.css',
             js: './node_modules/mdbootstrap/js/*.min.js',
