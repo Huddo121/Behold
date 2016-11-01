@@ -12,16 +12,17 @@
   },
   "license": "MIT",
   "scripts": {
-    "postinstall": "bower install && gulp build",
     "start": "node ./target/bin/www"
   },
   "dependencies": {
+    "ansi_up": "^1.3.0",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "dockerode": "^2.3.1",
     "express": "~4.13.4",
     "express-react-views": "^0.10.2",
+    "highlightjs": "^8.7.0",
     "less-middleware": "1.0.x",
     "mdbootstrap": "^4.1.1",
     "morgan": "~1.7.0",
@@ -35,7 +36,6 @@
     "babel-plugin-transform-regenerator": "^6.16.1",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
-    "bower": "^1.7.9",
     "connect-livereload": "^0.6.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",

@@ -10,12 +10,12 @@ var config = {
     target: './target',
     bowerRoot: './bower_components',
     paths: {
-        picnic: './bower_components/picnic/releases/picnic.min.css',
         mdbootstrap: {
             css: './node_modules/mdbootstrap/css/*.min.css',
             js: './node_modules/mdbootstrap/js/*.min.js',
             fonts: './node_modules/mdbootstrap/font/**/*'
-        }
+        },
+        highlightjs: './node_modules/highlightjs/styles/monokai_sublime.css'
     }
 };
 
@@ -75,7 +75,8 @@ gulp.task('third-party-files', ['third-party-styles', 'third-party-js', 'third-p
 
 gulp.task('third-party-styles', () => {
     return gulp.src([
-        config.paths.mdbootstrap.css
+        config.paths.mdbootstrap.css,
+        config.paths.highlightjs
         ])
         .pipe(changed(config.target))
         .pipe(gulp.dest(config.target + '/public/stylesheets/'));

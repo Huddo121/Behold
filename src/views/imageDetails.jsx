@@ -8,7 +8,7 @@ class ImageDetailsPage extends React.Component {
 
         //Set up the header items
         let headerItems = [];
-        headerItems.push(<h3 key="name">{details.name}</h3>);
+        headerItems.push(<h1 key="name">{details.name}</h1>);
 
         if(details.author) {
             headerItems.push(
