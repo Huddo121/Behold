@@ -16,3 +16,7 @@ after_success:
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push huddo121/behold;
     fi
+  - if [ "$TRAVIS_BRANCH" == "development" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push huddo121/behold:next;
+    fi
