@@ -130,7 +130,7 @@ DockerClient.prototype.getImage = async function(imageId) {
     });
 };
 
-DockerClient.prototype.getContainerLogs = async function(containerId) {
+DockerClient.prototype.getContainerLogs = async function(containerId, tail) {
 
     let pingResponse = await this.ping();
     if(!pingResponse.isSuccess) {
@@ -141,7 +141,8 @@ DockerClient.prototype.getContainerLogs = async function(containerId) {
     let params = {
         stdout: true,
         stderr: true,
-        timestamps: false
+        timestamps: false,
+        tail: tail || 300
     };
 
     let modem = this.runtime.modem;
