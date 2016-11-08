@@ -71,8 +71,17 @@ router.get('/containers/:containerId', function (req, res, next) {
         let logs = results[2];
 
         let imageLabels = image.Config.Labels || [];
-        //TODO: Make ports more accurate, currently just showing exposed ports. Need to show all local ports that map to container's exposed ports
-        let ports = Object.keys(container.NetworkSettings.Ports);
+        let portKeys = Object.keys(container.NetworkSettings.Ports);
+        let ports = portKeys.map(key => {
+            let portName = key.substr(0, key.indexOf('/'));
+
+            container.NetworkSettings.Ports[key] = container.NetworkSettings.Ports[key] || [];
+            let hostPorts = container.NetworkSettings.Ports[key].map(p => p.HostPort);
+            return {
+                containerPort: portName,
+                hostPorts: hostPorts
+            }
+        });
 
         let containerDetails = {
             id: shortenId(container.Id),
