@@ -1,54 +1,19 @@
+require('babel-polyfill');
 var express = require('express');
 var router = express.Router();
+var DockerClient = require('./util/DockerClient');
 var Docker = require('dockerode');
 var shortenId = require('./util/shortenId');
 
 /* GET home page. */
 router.get(['/', '/containers'], function (req, res, next) {
 
-    let d = new Docker();
+    let client = new DockerClient();
 
-    let dockerUpPromise = new Promise((resolve, reject) => {
-        d.ping((err, data) => {
-            let pingResponse = {
-                isSuccess: err ? false : true,
-                code: 'OK',
-                message: 'OK'
-            };
-
-            //Add any error messages/responses
-            if(err) {
-                pingResponse.code = err.code;
-                pingResponse.message = err.stack;
-            }
-
-            resolve(pingResponse);
-        });
-    });
-
-    dockerUpPromise.then((pingResponse) => {
-        if(pingResponse.isSuccess) {
-            //Collect data from Containers
-            let containerPromise = new Promise((resolve, reject) => {
-                d.listContainers({}, (err, data) => {
-                    resolve(data);
-                })
-            }).then((containers) => {
-                return containers.map(c => d.getContainer(c.Id)).map(c => new Promise((resolve, reject) => {
-                    c.inspect({}, (err, data) => {
-                        resolve(data);
-                    });
-                }));
-            }).then((inspectedContainers) => {
-                return Promise.all(inspectedContainers)
-            });
-
-            //Collect data from Images
-            let imagePromise = new Promise((resolve, reject) => {
-                d.listImages({}, (err, data) => {
-                    resolve(data);
-                })
-            });
+    client.ping().then((response) => {
+        if(response.isSuccess) {
+            let containerPromise = client.getContainers();
+            let imagePromise = client.getImages();
 
             Promise.all([imagePromise, containerPromise]).then((results) => {
 
@@ -75,13 +40,12 @@ router.get(['/', '/containers'], function (req, res, next) {
             });
         } else {
             // Docker is unable to be pinged
-            res.render('error', {message: 'Cannot connect to Docker', error: {status: pingResponse.code, 'stack': pingResponse.message}});
+            res.render('error', {message: 'Cannot connect to Docker', error: {status: response.code, 'stack': response.message}});
         }
     });
 });
 
 router.get('/containers/:containerId', function (req, res, next) {
-    let d = new Docker();
 
     //validate the id
     let containerId = req.params.containerId;
@@ -91,33 +55,33 @@ router.get('/containers/:containerId', function (req, res, next) {
     }
     //TODO: Should probably validate the id is hex
 
-    let containerPromise = new Promise((resolve, reject) => {
-        d.getContainer(containerId).inspect((err, data) => {
-            if(err) {
-                reject(err);
-            }
-            resolve(data);
-        })
-    });
+    let client = new DockerClient();
 
-    //Collect data from Images
+    let containerPromise = client.getContainer(containerId);
+
     let imagePromise = containerPromise.then((container) => {
-        return new Promise((resolve, reject) => {
-            d.getImage(container.Image).inspect((err, data) => {
-                if(err) {
-                    reject(err);
-                }
-                resolve(data);
-            })
-        });
+        return client.getImage(container.Image);
     });
 
-    Promise.all([containerPromise, imagePromise]).then((results) => {
+    let logPromise = client.getContainerLogs(containerId);
+
+    Promise.all([containerPromise, imagePromise, logPromise]).then((results) => {
         let container = results[0];
         let image = results[1];
+        let logs = results[2];
+
         let imageLabels = image.Config.Labels || [];
-        //TODO: Make ports more accurate, currently just showing exposed ports. Need to show all local ports that map to container's exposed ports
-        let ports = Object.keys(container.NetworkSettings.Ports);
+        let portKeys = Object.keys(container.NetworkSettings.Ports);
+        let ports = portKeys.map(key => {
+            let portName = key.substr(0, key.indexOf('/'));
+
+            container.NetworkSettings.Ports[key] = container.NetworkSettings.Ports[key] || [];
+            let hostPorts = container.NetworkSettings.Ports[key].map(p => p.HostPort);
+            return {
+                containerPort: portName,
+                hostPorts: hostPorts
+            }
+        });
 
         let containerDetails = {
             id: shortenId(container.Id),
@@ -129,10 +93,10 @@ router.get('/containers/:containerId', function (req, res, next) {
             ports: ports
         };
 
-        res.render('containerDetails', {title: 'Test Page', containerDetails: containerDetails})
+        res.render('containerDetails', {title: 'Test Page', containerDetails: containerDetails, logs: logs})
 
     }, (error) => {
-        res.render('error', {message: error.message});
+        res.render('error', {message: error.message, error: {status: error.code, 'stack': error.message}});
     });
 
 });

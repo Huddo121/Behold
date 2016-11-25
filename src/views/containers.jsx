@@ -11,11 +11,11 @@ class IndexPage extends React.Component {
 
         return (
             <DefaultLayout title={this.props.title}>
-                <div>
+                <div className="container-fluid">
                     <p>
                         <strong>Here are your currently running containers</strong>
                     </p>
-                    <div className="flex two three-600 five-1200 grow">
+                    <div className="flex">
                         {containerSummaries}
                     </div>
                 </div>

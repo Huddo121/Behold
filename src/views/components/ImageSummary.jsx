@@ -5,22 +5,23 @@ class ImageSummary extends React.Component {
 
         let spawnedContainers = this.props.summary.containers.map((container) => {
             return (
-                <div key={container.id} className="stack">
+                <div key={container.id}>
                     Container: <a href={"/containers/" + container.id}>{container.name}</a>
                 </div>
             )
         });
 
         return (
-            <div style={{width: 'fit-content'}}>
-                <article className="card">
-                    <header className="flex">
-                        <strong><span><a href={"/images/" + this.props.summary.id}>{this.props.summary.name}</a></span></strong>
-                    </header>
-                    <footer>
+            <div className="card summary">
+                <div className="card-block">
+                    <strong className="card-title">
+                        <a href={"/images/" + this.props.summary.id}>{this.props.summary.name}</a>
+                     </strong>
+                    <hr/>
+                    <div className="card-text">
                         {spawnedContainers}
-                    </footer>
-                </article>
+                    </div>
+                </div>
             </div>
         );
     }
