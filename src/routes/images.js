@@ -15,9 +15,10 @@ router.get('/', function (req, res, next) {
         let imageSummaries = [];
 
         images.forEach((image) => {
+            let labels = image.Config.Labels || [];
             let imageSummary = {
                 id: shortenId(image.Id),
-                name: image.RepoTags[0] || "Unknown"
+                name: labels.Name || image.RepoTags[0] || "Unknown: " + shortenId(image.Id),
             };
 
             imageSummary.containers  = containers.filter(c => c.Image === image.Id).map(c => {return {
@@ -66,7 +67,7 @@ router.get('/:imageId', (req, res, next) => {
 
         let imageDetails = {
             id: shortenId(image.Id),
-            name: labels.Name || image.RepoTags[0] || "Unknown",
+            name: labels.Name || image.RepoTags[0] || "Unknown: " + shortenId(image.Id),
             description: labels.Description || null,
             author: image.Author,
             creationDate: image.Created,
