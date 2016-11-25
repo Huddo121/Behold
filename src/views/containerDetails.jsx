@@ -22,18 +22,26 @@ class ContainerDetailsPage extends React.Component {
         let optionalItems = [];
 
         if(details.ports.length > 0) {
-            let ports = details.ports.map(port => {
-                return (<li key={port}>
-                    {port}
-                </li>);
+            let portCells = details.ports.map(port=> {
+                return (
+                    <tr key={port.containerPort}>
+                        <td style={{align: 'right'}}>{port.hostPorts.join(", ")}</td>
+                        <td>{port.containerPort}</td>
+                    </tr>);
             });
 
             optionalItems.push(
-                <div key="ports">
-                    Image's Exposed Ports:
-                    <ul>
-                        {ports}
-                    </ul>
+                <div className="col-xs-6" key="ports">
+                    <h4>Ports</h4>
+                    <table className="table">
+                        <tbody>
+                            <tr>
+                                <th>Host Ports</th>
+                                <th>Container Port</th>
+                            </tr>
+                        {portCells}
+                        </tbody>
+                    </table>
                 </div>
             )
         }
@@ -45,12 +53,26 @@ class ContainerDetailsPage extends React.Component {
                 </li>);
             });
 
+            let volumeCells = details.volumes.map(volume => {
+                return (
+                    <tr key={volume.destination}>
+                        <td>{volume.source}</td>
+                        <td>{volume.destination}</td>
+                    </tr>);
+            });
+
             optionalItems.push(
-                <div key="volumes">
-                    Volumes:
-                    <ul>
-                        {volumes}
-                    </ul>
+                <div className="col-xs-12" key="volumes">
+                    <h4>Volumes</h4>
+                    <table className="table">
+                        <tbody>
+                            <tr>
+                                <th>Local Path</th>
+                                <th>Container Path</th>
+                            </tr>
+                            {volumeCells}
+                        </tbody>
+                    </table>
                 </div>
             )
         }
@@ -70,14 +92,16 @@ class ContainerDetailsPage extends React.Component {
                             </p>
                             {optionalItems}
                         </footer>
-                        <h4>Container Log</h4>
-                        <pre className="highlight">
-                            {/* TODO: Find a better way to do this */}
-                            <code className="hljs">
-                                <span dangerouslySetInnerHTML={{ __html: ansiUp.ansi_to_html(this.props.logs) }}>
-                                </span>
-                            </code >
-                        </pre>
+                        <div className="col-xs-12">
+                            <h4>Container Log</h4>
+                            <pre className="highlight">
+                                {/* TODO: Find a better way to do this */}
+                                <code className="hljs">
+                                    <span dangerouslySetInnerHTML={{ __html: ansiUp.ansi_to_html(this.props.logs) }}>
+                                    </span>
+                                </code >
+                            </pre>
+                        </div>
                     </div>
                 </div>
             </DefaultLayout>
